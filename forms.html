@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Accessibility Demonstrations - A11y Demos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* Sticky Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .nav-link:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            margin-top: 80px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Introduction Section */
+        .introduction {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+        
+        .intro-content {
+            text-align: center;
+        }
+        
+        .intro-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .intro-content p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+        
+
+        
+        /* Demo Cards Section */
+        .demo-section {
+            padding: 4rem 0;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .demo-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .inaccessible-card {
+            border: 2px solid #dc3545;
+        }
+        
+        .inaccessible-card::before {
+            background: linear-gradient(90deg, #dc3545, #c82333);
+        }
+        
+        .accessible-card {
+            border: 2px solid #28a745;
+        }
+        
+        .accessible-card::before {
+            background: linear-gradient(90deg, #28a745, #218838);
+        }
+        
+        .card-header {
+            padding: 2rem 2rem 1rem;
+            text-align: center;
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-header h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .card-subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-body {
+            padding: 0 2rem 2rem;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .features-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #555;
+        }
+        
+        .feature-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .problems .feature-icon {
+            color: #dc3545;
+        }
+        
+        .solutions .feature-icon {
+            color: #28a745;
+        }
+        
+        .demo-button {
+            display: block;
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .demo-button:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        /* Learning Tips Section */
+        .learning-tips {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .tip-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tip-card h4 {
+            color: #007bff;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .tip-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 1rem 0;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                text-align: center;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">🌐 A11y Demos</a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">☰</button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="forms.html" class="nav-link active">Form Demos</a></li>
+                <li><a href="#" class="nav-link" style="opacity: 0.6;">Navigation (Coming Soon)</a></li>
+                <li><a href="#" class="nav-link" style="opacity: 0.6;">Images (Coming Soon)</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <h1>📝 Form Accessibility Demonstrations</h1>
+                <p>Experience the difference between accessible and inaccessible form design through interactive examples</p>
+            </div>
+        </header>
+
+        <!-- Introduction -->
+        <section class="introduction">
+            <div class="container">
+                <div class="intro-content">
+                    <h2>Learn Through Experience</h2>
+                    <p>These demonstrations show you exactly how form accessibility affects real users. Try both versions to understand why proper labels, error messages, and keyboard navigation are essential for inclusive design.</p>
+                    
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Cards -->
+        <section class="demo-section">
+            <div class="container">
+                <div class="demo-grid">
+                    <!-- Inaccessible Form Demo -->
+                    <div class="demo-card inaccessible-card">
+                        <div class="card-header">
+                            <div class="card-icon">❌</div>
+                            <h3>Inaccessible Form</h3>
+                            <p class="card-subtitle">Common accessibility violations that create barriers</p>
+                        </div>
+                        <div class="card-body">
+                            <ul class="features-list problems">
+                                <li>
+                                    <span class="feature-icon">⚠️</span>
+                                    <span>Missing form labels (placeholder-only text)</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">⚠️</span>
+                                    <span>Poor color contrast ratios</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">⚠️</span>
+                                    <span>No keyboard focus indicators</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">⚠️</span>
+                                    <span>Broken keyboard navigation</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">⚠️</span>
+                                    <span>No error messaging or validation</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">⚠️</span>
+                                    <span>Screen reader incompatibility</span>
+                                </li>
+                            </ul>
+                            <a href="forms-inaccessible.html" class="demo-button btn-danger">
+                                Try Inaccessible Form
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Accessible Form Demo -->
+                    <div class="demo-card accessible-card">
+                        <div class="card-header">
+                            <div class="card-icon">✅</div>
+                            <h3>Accessible Form</h3>
+                            <p class="card-subtitle">WCAG compliant design that works for everyone</p>
+                        </div>
+                        <div class="card-body">
+                            <ul class="features-list solutions">
+                                <li>
+                                    <span class="feature-icon">✅</span>
+                                    <span>Proper semantic labels for all inputs</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">✅</span>
+                                    <span>WCAG AA compliant color contrast</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">✅</span>
+                                    <span>Clear keyboard focus indicators</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">✅</span>
+                                    <span>Full keyboard navigation support</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">✅</span>
+                                    <span>Comprehensive error handling</span>
+                                </li>
+                                <li>
+                                    <span class="feature-icon">✅</span>
+                                    <span>Screen reader compatible</span>
+                                </li>
+                            </ul>
+                            <a href="forms-accessible.html" class="demo-button btn-success">
+                                Try Accessible Form
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Tips -->
+        <section class="learning-tips">
+            <div class="container">
+                <h2 class="intro-content" style="text-align: center; margin-bottom: 1rem; font-size: 2rem; color: #333;">Learning Tips</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Get the most out of these demonstrations with these practical approaches</p>
+                
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <h4>⌨️ Try Keyboard Navigation</h4>
+                        <p>Use only the Tab, Enter, and arrow keys to navigate through both forms. Notice how the accessible version provides clear focus indicators and logical tab order.</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <h4>👁️ Use the Vision Simulator</h4>
+                        <p>Activate the vision loss simulator in both forms to experience how screen reader users navigate. Pay attention to which version remains usable.</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <h4>🔍 Compare Error Handling</h4>
+                        <p>Submit both forms without filling them out completely. Compare how error messages are presented and how easy it is to understand and fix the issues.</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <h4>📱 Test on Mobile</h4>
+                        <p>View both demonstrations on a mobile device to see how touch targets, text size, and responsive design affect accessibility.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Accessibility Demo Platform - Form Demonstrations</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            
+            const isExpanded = navMenu.classList.contains('active');
+            menuToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.focus();
+            }
+        });
+    </script>
+</body>
+</html>

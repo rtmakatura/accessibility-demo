@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Contact Form - A11y Demos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #333333; /* Strong contrast - WCAG compliant */
+            line-height: 1.6;
+        }
+        
+        /* Sticky Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .nav-link:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            margin-top: 80px;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Vision simulation toggle - floating bottom-right */
+        .vision-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 9999; /* Higher than simulation overlay */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            min-width: 60px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .vision-toggle:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .vision-toggle:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 3px;
+        }
+        
+        .vision-toggle.active {
+            background: #dc3545;
+            animation: pulse 2s infinite;
+        }
+        
+        .vision-toggle.active:hover {
+            background: #c82333;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3); }
+            50% { box-shadow: 0 4px 30px rgba(220, 53, 69, 0.6); }
+            100% { box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3); }
+        }
+        
+        .vision-simulation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .vision-simulation.active {
+            opacity: 0.95;
+        }
+        
+        .vision-instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            border: 2px solid #ffd700;
+        }
+        
+        .vision-instructions h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+        
+        .header h1 {
+            color: #2c3e50; /* Strong contrast */
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #555555; /* Good contrast */
+            font-size: 1.1rem;
+        }
+        
+        .demo-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .form-container {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .instructions {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .instructions p {
+            color: #333;
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        /* Proper labels - WCAG compliant */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333333; /* Strong contrast */
+            font-size: 1rem;
+        }
+        
+        .required {
+            color: #d63384; /* Strong red with good contrast */
+            font-weight: normal;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #6c757d;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+            color: #333;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        /* Strong focus indicators - WCAG compliant */
+        input:focus, select:focus, textarea:focus {
+            outline: 3px solid #0066cc;
+            outline-offset: 2px;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+        }
+        
+        /* Good placeholder contrast */
+        input::placeholder, textarea::placeholder {
+            color: #6c757d; /* Good contrast */
+        }
+        
+        .error {
+            color: #d63384;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .field-error {
+            border-color: #d63384 !important;
+            background-color: #fff5f5;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: none;
+            border: 1px solid #c3e6cb;
+        }
+        
+        /* Form actions */
+        .form-actions {
+            margin-top: 35px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #0066cc, #004d99);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #0052a3, #003d7a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
+        }
+        
+        .submit-btn:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .submit-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Platform navigation */
+        .platform-nav {
+            margin-top: 40px;
+            padding-top: 30px;
+        }
+        
+        .nav-separator {
+            height: 2px;
+            background: linear-gradient(to right, #e9ecef, #6c757d, #e9ecef);
+            margin-bottom: 25px;
+            border-radius: 1px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-btn:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .home-btn {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+        }
+        
+        .home-btn:hover {
+            background: linear-gradient(135deg, #5a6268, #495057);
+        }
+        
+        .demo-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        
+        .demo-btn:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+        }
+        
+        .compare-btn {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+        
+        .compare-btn:hover {
+            background: linear-gradient(135deg, #c82333, #a71e2a);
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 1rem 0;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                text-align: center;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .nav-btn {
+                justify-content: center;
+            }
+            
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">🌐 A11y Demos</a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">☰</button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="forms.html" class="nav-link active">Form Demos</a></li>
+                <li><a href="#" class="nav-link" style="opacity: 0.6;">Navigation (Coming Soon)</a></li>
+                <li><a href="#" class="nav-link" style="opacity: 0.6;">Images (Coming Soon)</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Vision simulation toggle -->
+    <button id="vision-toggle" class="vision-toggle" aria-pressed="false" title="Toggle vision loss simulation (Ctrl+Shift+V)">
+        👁️
+    </button>
+    
+    <!-- Vision simulation overlay -->
+    <div id="vision-simulation" class="vision-simulation">
+        <div class="vision-instructions">
+            <h2>Vision Loss Simulation Active</h2>
+            <p><strong>Try navigating this form using only:</strong></p>
+            <p>• Tab key to move between fields<br>
+            • Enter/Space to activate buttons<br>
+            • Arrow keys in dropdown menus<br>
+            • Screen reader if available</p>
+            <p><em>Notice how this accessible form remains fully usable!</em></p>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="header">
+                <div class="demo-badge">✅ Accessible Version</div>
+                <h1>Contact Us</h1>
+                <p>Please fill out this form to get in touch with our team</p>
+            </div>
+
+            <div class="form-container">
+                <div class="instructions">
+                    <p><strong>Instructions:</strong> Fields marked with an asterisk (<span class="required">*</span>) are required. Please complete all required fields before submitting.</p>
+                </div>
+
+                <div id="success-message" class="success-message" role="alert" aria-live="polite">
+                    <strong>Success!</strong> Your message has been sent. We'll get back to you within 2 business days.
+                </div>
+
+                <form id="contactForm" novalidate>
+                    <div class="form-group">
+                        <label for="name">
+                            Full Name <span class="required" aria-label="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name"
+                            required 
+                            aria-describedby="name-error"
+                            autocomplete="name"
+                        >
+                        <div id="name-error" class="error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            Email Address <span class="required" aria-label="required">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            required 
+                            aria-describedby="email-error"
+                            autocomplete="email"
+                        >
+                        <div id="email-error" class="error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone"
+                            aria-describedby="phone-help"
+                            autocomplete="tel"
+                        >
+                        <div id="phone-help" class="sr-only">Optional field. Include country code if calling from outside the US.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">
+                            Subject <span class="required" aria-label="required">*</span>
+                        </label>
+                        <select 
+                            id="subject" 
+                            name="subject"
+                            required 
+                            aria-describedby="subject-error"
+                        >
+                            <option value="">Please choose a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="billing">Billing Question</option>
+                            <option value="feedback">Feedback</option>
+                        </select>
+                        <div id="subject-error" class="error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">
+                            Message <span class="required" aria-label="required">*</span>
+                        </label>
+                        <textarea 
+                            id="message" 
+                            name="message"
+                            rows="5" 
+                            required 
+                            aria-describedby="message-error message-help"
+                        ></textarea>
+                        <div id="message-help" class="sr-only">Please provide details about your inquiry. Minimum 10 characters required.</div>
+                        <div id="message-error" class="error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <label for="newsletter">Subscribe to our newsletter for updates and special offers</label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn" id="submit-button">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Platform Navigation -->
+            <div class="platform-nav">
+                <div class="nav-separator"></div>
+                <div class="nav-buttons">
+                    <a href="forms.html" class="nav-btn demo-btn">
+                        ← Back to Form Demos
+                    </a>
+                    <a href="forms-inaccessible.html" class="nav-btn compare-btn">
+                        Compare: Inaccessible Version
+                    </a>
+                    <a href="index.html" class="nav-btn home-btn">
+                        🏠 Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            
+            const isExpanded = navMenu.classList.contains('active');
+            menuToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.focus();
+            }
+        });
+
+        // Get DOM elements
+        const form = document.getElementById('contactForm');
+        const submitButton = document.getElementById('submit-button');
+        const successMessage = document.getElementById('success-message');
+        const visionToggle = document.getElementById('vision-toggle');
+        const visionSimulation = document.getElementById('vision-simulation');
+
+        // Vision simulation functionality - accessible version
+        visionToggle.addEventListener('click', function() {
+            const isActive = visionSimulation.classList.contains('active');
+            
+            if (isActive) {
+                // Turn off simulation
+                visionSimulation.classList.remove('active');
+                visionToggle.classList.remove('active');
+                visionToggle.setAttribute('aria-pressed', 'false');
+                visionToggle.innerHTML = '👁️';
+                visionToggle.title = 'Toggle vision loss simulation (Ctrl+Shift+V)';
+            } else {
+                // Turn on simulation
+                visionSimulation.classList.add('active');
+                visionToggle.classList.add('active');
+                visionToggle.setAttribute('aria-pressed', 'true');
+                visionToggle.innerHTML = '👁️';
+                visionToggle.title = 'Disable vision loss simulation (Ctrl+Shift+V)';
+            }
+        });
+
+        // Keyboard shortcut for vision toggle (Ctrl+Shift+V)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'V') {
+                e.preventDefault();
+                visionToggle.click();
+            }
+        });
+
+        // Form submission with proper validation
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            clearErrors();
+            
+            // Validate form
+            const isValid = validateForm();
+            
+            if (isValid) {
+                // Simulate form submission
+                submitButton.disabled = true;
+                submitButton.textContent = 'Sending...';
+                
+                setTimeout(() => {
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    successMessage.focus();
+                    
+                    // Reset form
+                    form.reset();
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Send Message';
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+        });
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Validate name
+            const name = document.getElementById('name');
+            if (!name.value.trim()) {
+                showError('name', 'Full name is required');
+                isValid = false;
+            }
+            
+            // Validate email
+            const email = document.getElementById('email');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim()) {
+                showError('email', 'Email address is required');
+                isValid = false;
+            } else if (!emailPattern.test(email.value)) {
+                showError('email', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Validate subject
+            const subject = document.getElementById('subject');
+            if (!subject.value) {
+                showError('subject', 'Please select a subject');
+                isValid = false;
+            }
+            
+            // Validate message
+            const message = document.getElementById('message');
+            if (!message.value.trim()) {
+                showError('message', 'Message is required');
+                isValid = false;
+            } else if (message.value.trim().length < 10) {
+                showError('message', 'Message must be at least 10 characters long');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + '-error');
+            
+            field.classList.add('field-error');
+            field.setAttribute('aria-invalid', 'true');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            // Focus first error field
+            if (!document.querySelector('.field-error:focus')) {
+                field.focus();
+            }
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error');
+            const fieldElements = document.querySelectorAll('.field-error');
+            
+            errorElements.forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+            
+            fieldElements.forEach(el => {
+                el.classList.remove('field-error');
+                el.removeAttribute('aria-invalid');
+            });
+            
+            // Hide success message when starting new submission
+            successMessage.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

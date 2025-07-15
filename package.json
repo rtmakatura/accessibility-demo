@@ -1,0 +1,26 @@
+{
+  "name": "accessibility-demo",
+  "version": "1.0.0",
+  "description": "Digital Accessibility Training Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite --port 3001",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtmakatura/accessibility-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rtmakatura/accessibility-demo/issues"
+  },
+  "homepage": "https://github.com/rtmakatura/accessibility-demo#readme",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
