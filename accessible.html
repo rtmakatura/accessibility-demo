@@ -161,6 +161,70 @@
             border: 0;
         }
         
+        /* Vision simulation styles */
+        .vision-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #6f42c1;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+        
+        .vision-toggle:hover {
+            background-color: #5a2d91;
+        }
+        
+        .vision-toggle:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .vision-simulation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .vision-simulation.active {
+            opacity: 0.95;
+        }
+        
+        .vision-simulation .instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            border: 2px solid #ffd700;
+        }
+        
+        .vision-simulation .instructions h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+        
         .instructions {
             background-color: #e7f3ff;
             padding: 15px;
@@ -171,6 +235,24 @@
     </style>
 </head>
 <body>
+    <!-- Vision simulation toggle -->
+    <button id="vision-toggle" class="vision-toggle" aria-pressed="false">
+        👁️ Simulate Vision Loss
+    </button>
+    
+    <!-- Vision simulation overlay -->
+    <div id="vision-simulation" class="vision-simulation">
+        <div class="instructions">
+            <h2>Vision Loss Simulation Active</h2>
+            <p><strong>Try navigating this form using only:</strong></p>
+            <p>• Tab key to move between fields<br>
+            • Enter/Space to activate buttons<br>
+            • Arrow keys in dropdown menus<br>
+            • Screen reader if available</p>
+            <p><em>Press the "Simulate Vision Loss" button again to restore vision.</em></p>
+        </div>
+    </div>
+
     <div class="header">
         <h1>Contact Us</h1>
         <p>Please fill out this form to get in touch with our team</p>
@@ -273,6 +355,7 @@
                 Send Message
             </button>
             
+            <a href="index.html" class="link-btn">← Back to Home</a>
             <a href="inaccessible.html" class="link-btn">View Inaccessible Version</a>
         </form>
     </div>
@@ -281,6 +364,35 @@
         const form = document.getElementById('contactForm');
         const submitButton = document.getElementById('submit-button');
         const successMessage = document.getElementById('success-message');
+        const visionToggle = document.getElementById('vision-toggle');
+        const visionSimulation = document.getElementById('vision-simulation');
+
+        // Vision simulation toggle
+        visionToggle.addEventListener('click', function() {
+            const isActive = visionSimulation.classList.contains('active');
+            
+            if (isActive) {
+                // Turn off simulation
+                visionSimulation.classList.remove('active');
+                visionToggle.setAttribute('aria-pressed', 'false');
+                visionToggle.innerHTML = '👁️ Simulate Vision Loss';
+                visionToggle.style.backgroundColor = '#6f42c1';
+            } else {
+                // Turn on simulation
+                visionSimulation.classList.add('active');
+                visionToggle.setAttribute('aria-pressed', 'true');
+                visionToggle.innerHTML = '👁️ Restore Vision';
+                visionToggle.style.backgroundColor = '#dc3545';
+            }
+        });
+
+        // Keyboard shortcut for vision toggle (Ctrl+Shift+V)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'V') {
+                e.preventDefault();
+                visionToggle.click();
+            }
+        });
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
