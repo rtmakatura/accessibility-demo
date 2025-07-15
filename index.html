@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Accessibility Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .demo-link {
+            display: inline-block;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .demo-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .inaccessible {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .accessible {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .description {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .description h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        
+        ul {
+            margin: 15px 0;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Web Accessibility Demo</h1>
+        
+        <p>This demo compares two versions of the same contact form to demonstrate the difference between accessible and inaccessible web design practices.</p>
+        
+        <div class="demo-links">
+            <a href="inaccessible.html" class="demo-link inaccessible">
+                📝 Inaccessible Form<br>
+                <small>(WCAG Violations)</small>
+            </a>
+            <a href="accessible.html" class="demo-link accessible">
+                ✅ Accessible Form<br>
+                <small>(WCAG Compliant)</small>
+            </a>
+        </div>
+        
+        <div class="description">
+            <h3>🚫 Inaccessible Version Issues:</h3>
+            <ul>
+                <li>Missing form labels (placeholder-only instructions)</li>
+                <li>Poor color contrast ratios</li>
+                <li>No visible focus indicators</li>
+                <li>Keyboard navigation traps</li>
+                <li>No error handling or feedback</li>
+                <li>Missing ARIA attributes</li>
+            </ul>
+        </div>
+        
+        <div class="description">
+            <h3>✅ Accessible Version Improvements:</h3>
+            <ul>
+                <li>Proper labels associated with all form fields</li>
+                <li>Strong color contrast (WCAG AA compliant)</li>
+                <li>Clear focus indicators for keyboard navigation</li>
+                <li>Logical tab order and keyboard support</li>
+                <li>Descriptive error messages and validation</li>
+                <li>ARIA attributes for screen readers</li>
+                <li>Semantic HTML structure</li>
+            </ul>
+        </div>
+        
+        <p><strong>Try both versions:</strong> Use keyboard navigation (Tab key), try submitting without filling fields, and test with a screen reader if available to experience the differences.</p>
+    </div>
+</body>
+</html>
