@@ -150,24 +150,22 @@
         }
         
         .submit-btn {
-            background: linear-gradient(135deg, #007cba, #005a8b);
+            background: #007cba;
             color: white;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 8px 16px;
+            border: 1px solid #006ba1;
+            border-radius: 3px;
+            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 123, 186, 0.3);
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
+            /* Poor styling - basic and outdated looking */
+            font-family: Arial, sans-serif;
             /* No focus indicators - poor accessibility */
             outline: none;
         }
         
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 123, 186, 0.4);
+            /* Minimal hover effect */
+            background: #006ba1;
         }
         
         .nav-buttons {
@@ -283,8 +281,9 @@
                     <textarea placeholder="Message (Required)" id="message" rows="5"></textarea>
                 </div>
 
-                <!-- Keyboard trap element - WCAG violation -->
-                <input type="text" class="hidden-trap" tabindex="0">
+                <!-- Keyboard trap element - creates focus issues -->
+                <input type="text" class="hidden-trap" tabindex="0" id="trap1">
+                <input type="text" class="hidden-trap" tabindex="0" id="trap2">
 
                 <div class="form-group">
                     <div class="checkbox-wrapper">
@@ -345,14 +344,73 @@
             alert("Form submitted!"); 
         }
         
-        // Create keyboard navigation issues - WCAG violation
+        // Aggressive keyboard navigation interference - WCAG violations
+        let tabCount = 0;
+        let trapActive = false;
+        
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Tab') {
-                // Interfere with natural tab order occasionally
-                if (Math.random() > 0.7) {
+                tabCount++;
+                
+                // Block tab navigation frequently to make it frustrating
+                if (tabCount % 3 === 0) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                // Randomly redirect focus to create confusion
+                if (Math.random() > 0.6) {
+                    e.preventDefault();
+                    setTimeout(() => {
+                        // Focus random form element
+                        const elements = ['name', 'email', 'subject'];
+                        const randomElement = document.getElementById(elements[Math.floor(Math.random() * elements.length)]);
+                        if (randomElement) {
+                            randomElement.focus();
+                        }
+                    }, 100);
+                    return;
+                }
+                
+                // Create keyboard trap - focus gets stuck on hidden elements
+                if (!trapActive && Math.random() > 0.7) {
+                    e.preventDefault();
+                    trapActive = true;
+                    const trap = document.getElementById('trap1');
+                    trap.focus();
+                    
+                    // Release after several attempts
+                    setTimeout(() => {
+                        trapActive = false;
+                    }, 3000);
+                    return;
+                }
+            }
+            
+            // Interfere with other keyboard shortcuts
+            if (e.key === 'Enter') {
+                // Sometimes prevent form submission
+                if (Math.random() > 0.5) {
                     e.preventDefault();
                 }
             }
+        });
+        
+        // Add focus events to hidden traps that redirect randomly
+        document.getElementById('trap1').addEventListener('focus', function() {
+            setTimeout(() => {
+                if (trapActive) {
+                    document.getElementById('trap2').focus();
+                }
+            }, 200);
+        });
+        
+        document.getElementById('trap2').addEventListener('focus', function() {
+            setTimeout(() => {
+                if (trapActive) {
+                    document.getElementById('trap1').focus();
+                }
+            }, 200);
         });
         
         // Additional accessibility issues
@@ -362,8 +420,20 @@
             focusElements.forEach(el => {
                 el.addEventListener('focus', function() {
                     this.style.outline = 'none';
+                    this.style.boxShadow = 'none';
                 });
             });
+            
+            // Randomly steal focus to annoy users
+            setInterval(() => {
+                if (Math.random() > 0.92) {
+                    const elements = document.querySelectorAll('input, select, textarea');
+                    if (elements.length > 0) {
+                        const randomEl = elements[Math.floor(Math.random() * elements.length)];
+                        randomEl.focus();
+                    }
+                }
+            }, 2000);
         });
     </script>
 </body>
