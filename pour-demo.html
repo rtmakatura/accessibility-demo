@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can You Use This Page? - POUR Principles Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* Sticky Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .nav-link:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            margin-top: 80px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Instructions */
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .instructions h2 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+        
+        .instructions p {
+            color: #856404;
+            font-size: 1.1rem;
+        }
+        
+        /* POUR Sections */
+        .pour-section {
+            margin: 3rem 0;
+            padding: 3rem;
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+        
+        .pour-section.broken {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+        }
+        
+        .pour-section.fixed {
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .broken .section-title {
+            color: #721c24;
+        }
+        
+        .fixed .section-title {
+            color: #155724;
+        }
+        
+        .section-subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .fix-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+        
+        .fix-button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+        }
+        
+        .fix-button:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .fix-button.fixed {
+            background: #28a745;
+            cursor: default;
+        }
+        
+        .fix-button.fixed:hover {
+            background: #28a745;
+            transform: none;
+        }
+        
+        /* Perceivable Section */
+        .demo-image {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 3px solid #ddd;
+            transition: all 0.5s ease;
+        }
+        
+        .demo-image.fixed {
+            border-color: #28a745;
+        }
+        
+        .alt-text-display {
+            background: #f8f9fa;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            display: none;
+        }
+        
+        .alt-text-display.visible {
+            display: block;
+            background: #e8f5e8;
+            border-color: #28a745;
+        }
+        
+        /* Operable Section */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #666;
+        }
+        
+        .close-modal:focus {
+            outline: 2px solid #007bff;
+        }
+        
+        .modal-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-button:hover {
+            background: #0056b3;
+        }
+        
+        .modal-button:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        /* Understandable Section */
+        .jargon-text {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #dc3545;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .jargon-text:hover {
+            background: #e9ecef;
+        }
+        
+        .jargon-text::after {
+            content: "👆 Click to see in plain language";
+            position: absolute;
+            bottom: 0.5rem;
+            right: 1rem;
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .plain-text {
+            display: none;
+            background: #e8f5e8;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        /* Robust Section */
+        .button-demo {
+            margin: 2rem 0;
+        }
+        
+        .fake-button {
+            background: #007bff;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .fake-button:hover {
+            background: #0056b3;
+        }
+        
+        .real-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .real-button:hover {
+            background: #218838;
+        }
+        
+        .real-button:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .screen-reader-test {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .test-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .test-result.fail {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .test-result.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        /* Progress Tracker */
+        .progress-tracker {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+        
+        .progress-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            gap: 0.5rem;
+        }
+        
+        .progress-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .progress-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .progress-icon.broken {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .progress-icon.fixed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .reset-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .reset-btn:hover {
+            background: #5a6268;
+        }
+        
+        .reset-btn:focus {
+            outline: 2px solid #ffd700;
+            outline-offset: 1px;
+        }
+        
+        /* Platform Navigation */
+        .platform-nav {
+            margin-top: 40px;
+            padding-top: 30px;
+        }
+        
+        .nav-separator {
+            height: 2px;
+            background: linear-gradient(to right, #e9ecef, #6c757d, #e9ecef);
+            margin-bottom: 25px;
+            border-radius: 1px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-btn:focus {
+            outline: 3px solid #ffd700;
+            outline-offset: 2px;
+        }
+        
+        .home-btn {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+        }
+        
+        .demo-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        
+        .forms-btn {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 1rem 0;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                text-align: center;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .progress-tracker {
+                display: none;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .nav-btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">🌐 A11y Demos</a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">☰</button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="forms.html" class="nav-link">Form Demos</a></li>
+                <li><a href="pour-demo.html" class="nav-link active">POUR Demo</a></li>
+                <li><a href="#" class="nav-link" style="opacity: 0.6;">Images (Coming Soon)</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+        <div class="progress-item">
+            <div class="progress-left">
+                <div class="progress-icon broken" id="progress-perceivable">❌</div>
+                <span>Perceivable</span>
+            </div>
+            <button class="reset-btn" id="reset-perceivable">Reset</button>
+        </div>
+        <div class="progress-item">
+            <div class="progress-left">
+                <div class="progress-icon broken" id="progress-operable">❌</div>
+                <span>Operable</span>
+            </div>
+            <button class="reset-btn" id="reset-operable">Reset</button>
+        </div>
+        <div class="progress-item">
+            <div class="progress-left">
+                <div class="progress-icon broken" id="progress-understandable">❌</div>
+                <span>Understandable</span>
+            </div>
+            <button class="reset-btn" id="reset-understandable">Reset</button>
+        </div>
+        <div class="progress-item">
+            <div class="progress-left">
+                <div class="progress-icon broken" id="progress-robust">❌</div>
+                <span>Robust</span>
+            </div>
+            <button class="reset-btn" id="reset-robust">Reset</button>
+        </div>
+    </div>
+
+    <main>
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <h1>🎯 Can You Use This Page?</h1>
+                <p>This page is deliberately broken. Fix each POUR principle to make it accessible!</p>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Instructions -->
+            <div class="instructions">
+                <h2>🚨 Warning: This Page Has Accessibility Issues!</h2>
+                <p>Each section below demonstrates problems with one of the four POUR principles. Click the "Fix" buttons to see how proper accessibility transforms the user experience.</p>
+            </div>
+
+            <!-- 1. PERCEIVABLE Section -->
+            <section class="pour-section broken" id="perceivable-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">1. 👁️ Perceivable</h2>
+                        <p class="section-subtitle">Information must be presentable in ways users can perceive</p>
+                    </div>
+                    <button class="fix-button" id="fix-perceivable">Fix Perceivable Issues</button>
+                </div>
+
+                <div class="demo-content">
+                    <h3>Image without alternative text:</h3>
+                    <p>Screen readers cannot describe this image to visually impaired users:</p>
+                    <img src="puppy-image.png" alt="" class="demo-image" id="demo-image">
+                    
+                    <div class="alt-text-display" id="alt-text-display">
+                        <strong>Alt text now reads:</strong> "A cute golden retriever puppy sitting in green grass, looking directly at the camera with a happy expression"
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. OPERABLE Section -->
+            <section class="pour-section broken" id="operable-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">2. ⌨️ Operable</h2>
+                        <p class="section-subtitle">Interface components must be operable by all users</p>
+                    </div>
+                    <button class="fix-button" id="fix-operable">Fix Operable Issues</button>
+                </div>
+
+                <div class="demo-content">
+                    <h3>Modal that traps keyboard focus:</h3>
+                    <p>Try opening this modal and pressing the Escape key to close it:</p>
+                    <button class="modal-button" id="open-modal">Open Modal (Try pressing Escape to close)</button>
+                </div>
+            </section>
+
+            <!-- Modal -->
+            <div id="demo-modal" class="modal">
+                <div class="modal-content">
+                    <button class="close-modal" id="close-modal" aria-label="Close modal">×</button>
+                    <h3>Important Notice</h3>
+                    <p>In the broken state, pressing Escape won't close this modal. Keyboard users get trapped!</p>
+                    <p>After fixing, the Escape key will work properly.</p>
+                    <button class="modal-button">Action Button</button>
+                </div>
+            </div>
+
+            <!-- 3. UNDERSTANDABLE Section -->
+            <section class="pour-section broken" id="understandable-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">3. 🧠 Understandable</h2>
+                        <p class="section-subtitle">Information and UI operation must be understandable</p>
+                    </div>
+                    <button class="fix-button" id="fix-understandable">Fix Understandable Issues</button>
+                </div>
+
+                <div class="demo-content">
+                    <h3>Legal jargon that needs simplification:</h3>
+                    <div class="jargon-text" id="jargon-text">
+                        <p><strong>SECTION 8.1.4(b):</strong> Pursuant to the interagency framework established under subsection (a), each covered entity shall implement requisite conformance protocols to ensure adherence to applicable statutory mandates regarding informational accessibility paradigms, subject to the procedural requirements enumerated in sections 12.3(c) through 15.7(d) inclusive.</p>
+                    </div>
+                    
+                    <div class="plain-text" id="plain-text">
+                        <p><strong>Simple version:</strong> Organizations must follow the rules about making information accessible to people with disabilities. Here's what you need to do to follow the law.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. ROBUST Section -->
+            <section class="pour-section broken" id="robust-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">4. 🔧 Robust</h2>
+                        <p class="section-subtitle">Content must be robust enough for various assistive technologies</p>
+                    </div>
+                    <button class="fix-button" id="fix-robust">Fix Robust Issues</button>
+                </div>
+
+                <div class="demo-content">
+                    <h3>Fake button vs. Real button:</h3>
+                    <p>Try using the Tab key to navigate to these buttons:</p>
+                    
+                    <div class="button-demo">
+                        <div class="fake-button" id="fake-button">Fake Button (div element)</div>
+                        <button class="real-button" id="real-button">Real Button (button element)</button>
+                    </div>
+
+                    <div class="screen-reader-test">
+                        <p><strong>Screen Reader Test:</strong></p>
+                        <button class="modal-button" id="screen-reader-test">Test Screen Reader Compatibility</button>
+                        <div class="test-result" id="test-result"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Platform Navigation -->
+            <div class="platform-nav">
+                <div class="nav-separator"></div>
+                <div class="nav-buttons">
+                    <a href="index.html" class="nav-btn home-btn">
+                        🏠 Home
+                    </a>
+                    <a href="forms.html" class="nav-btn forms-btn">
+                        📝 Form Demos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            
+            const isExpanded = navMenu.classList.contains('active');
+            menuToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.focus();
+            }
+        });
+
+        // POUR Demo Functionality
+        let fixedSections = {
+            perceivable: false,
+            operable: false,
+            understandable: false,
+            robust: false
+        };
+
+        // Modal elements
+        const modal = document.getElementById('demo-modal');
+        const openModalBtn = document.getElementById('open-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        // 1. PERCEIVABLE fixes
+        document.getElementById('fix-perceivable').addEventListener('click', function() {
+            if (fixedSections.perceivable) return;
+            
+            const section = document.getElementById('perceivable-section');
+            const button = this;
+            const progressIcon = document.getElementById('progress-perceivable');
+            
+            // Fix image alt text
+            const image = document.getElementById('demo-image');
+            const altTextDisplay = document.getElementById('alt-text-display');
+            
+            image.setAttribute('alt', 'A cute golden retriever puppy sitting in green grass, looking directly at the camera with a happy expression');
+            image.classList.add('fixed');
+            altTextDisplay.classList.add('visible');
+            
+            // Update section state
+            section.classList.remove('broken');
+            section.classList.add('fixed');
+            button.textContent = '✅ Perceivable Fixed!';
+            button.classList.add('fixed');
+            progressIcon.classList.remove('broken');
+            progressIcon.classList.add('fixed');
+            progressIcon.textContent = '✅';
+            
+            fixedSections.perceivable = true;
+            checkAllFixed();
+        });
+
+        // 2. OPERABLE fixes
+        document.getElementById('fix-operable').addEventListener('click', function() {
+            if (fixedSections.operable) return;
+            
+            const section = document.getElementById('operable-section');
+            const button = this;
+            const progressIcon = document.getElementById('progress-operable');
+            
+            // Fix modal functionality - add escape key listener
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    openModalBtn.focus();
+                }
+            });
+            
+            // Update section state
+            section.classList.remove('broken');
+            section.classList.add('fixed');
+            button.textContent = '✅ Operable Fixed!';
+            button.classList.add('fixed');
+            progressIcon.classList.remove('broken');
+            progressIcon.classList.add('fixed');
+            progressIcon.textContent = '✅';
+            
+            fixedSections.operable = true;
+            checkAllFixed();
+        });
+
+        // 3. UNDERSTANDABLE fixes
+        document.getElementById('fix-understandable').addEventListener('click', function() {
+            if (fixedSections.understandable) return;
+            
+            const section = document.getElementById('understandable-section');
+            const button = this;
+            const progressIcon = document.getElementById('progress-understandable');
+            
+            // Fix jargon text
+            const jargonText = document.getElementById('jargon-text');
+            const plainText = document.getElementById('plain-text');
+            
+            jargonText.style.display = 'none';
+            plainText.style.display = 'block';
+            
+            // Update section state
+            section.classList.remove('broken');
+            section.classList.add('fixed');
+            button.textContent = '✅ Understandable Fixed!';
+            button.classList.add('fixed');
+            progressIcon.classList.remove('broken');
+            progressIcon.classList.add('fixed');
+            progressIcon.textContent = '✅';
+            
+            fixedSections.understandable = true;
+            checkAllFixed();
+        });
+
+        // 4. ROBUST fixes
+        document.getElementById('fix-robust').addEventListener('click', function() {
+            if (fixedSections.robust) return;
+            
+            const section = document.getElementById('robust-section');
+            const button = this;
+            const progressIcon = document.getElementById('progress-robust');
+            
+            // Fix fake button vs real button
+            const fakeButton = document.getElementById('fake-button');
+            const realButton = document.getElementById('real-button');
+            
+            fakeButton.style.display = 'none';
+            realButton.style.display = 'inline-block';
+            
+            // Update test result
+            const testResult = document.getElementById('test-result');
+            testResult.className = 'test-result success';
+            testResult.textContent = '✅ Screen reader can now identify this as a proper button element with keyboard navigation support!';
+            
+            // Update section state
+            section.classList.remove('broken');
+            section.classList.add('fixed');
+            button.textContent = '✅ Robust Fixed!';
+            button.classList.add('fixed');
+            progressIcon.classList.remove('broken');
+            progressIcon.classList.add('fixed');
+            progressIcon.textContent = '✅';
+            
+            fixedSections.robust = true;
+            checkAllFixed();
+        });
+
+        // Screen reader test functionality
+        document.getElementById('screen-reader-test').addEventListener('click', function() {
+            const testResult = document.getElementById('test-result');
+            
+            if (fixedSections.robust) {
+                testResult.className = 'test-result success';
+                testResult.textContent = '✅ Screen reader can identify this as a proper button element with keyboard navigation support!';
+            } else {
+                testResult.className = 'test-result fail';
+                testResult.textContent = '❌ Screen reader cannot identify the fake button. It\'s just a div with styling - no semantic meaning!';
+            }
+        });
+
+        // Modal functionality
+        openModalBtn.addEventListener('click', function() {
+            modal.style.display = 'block';
+            closeModalBtn.focus();
+        });
+
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            openModalBtn.focus();
+        });
+
+        // Click outside modal to close
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                openModalBtn.focus();
+            }
+        });
+
+        // Interactive elements for broken state demonstrations
+        document.getElementById('jargon-text').addEventListener('click', function() {
+            if (!fixedSections.understandable) {
+                alert('This text is confusing! Click "Fix Understandable Issues" to see it in plain language.');
+            }
+        });
+
+        // Reset functionality
+        document.getElementById('reset-perceivable').addEventListener('click', function() {
+            resetPerceivable();
+        });
+
+        document.getElementById('reset-operable').addEventListener('click', function() {
+            resetOperable();
+        });
+
+        document.getElementById('reset-understandable').addEventListener('click', function() {
+            resetUnderstandable();
+        });
+
+        document.getElementById('reset-robust').addEventListener('click', function() {
+            resetRobust();
+        });
+
+        function resetPerceivable() {
+            const section = document.getElementById('perceivable-section');
+            const button = document.getElementById('fix-perceivable');
+            const progressIcon = document.getElementById('progress-perceivable');
+            const image = document.getElementById('demo-image');
+            const altTextDisplay = document.getElementById('alt-text-display');
+            
+            // Reset image
+            image.removeAttribute('alt');
+            image.classList.remove('fixed');
+            altTextDisplay.classList.remove('visible');
+            
+            // Reset section state
+            section.classList.remove('fixed');
+            section.classList.add('broken');
+            button.textContent = 'Fix Perceivable Issues';
+            button.classList.remove('fixed');
+            progressIcon.classList.remove('fixed');
+            progressIcon.classList.add('broken');
+            progressIcon.textContent = '❌';
+            
+            fixedSections.perceivable = false;
+        }
+
+        function resetOperable() {
+            const section = document.getElementById('operable-section');
+            const button = document.getElementById('fix-operable');
+            const progressIcon = document.getElementById('progress-operable');
+            
+            // Reset section state
+            section.classList.remove('fixed');
+            section.classList.add('broken');
+            button.textContent = 'Fix Operable Issues';
+            button.classList.remove('fixed');
+            progressIcon.classList.remove('fixed');
+            progressIcon.classList.add('broken');
+            progressIcon.textContent = '❌';
+            
+            fixedSections.operable = false;
+        }
+
+        function resetUnderstandable() {
+            const section = document.getElementById('understandable-section');
+            const button = document.getElementById('fix-understandable');
+            const progressIcon = document.getElementById('progress-understandable');
+            const jargonText = document.getElementById('jargon-text');
+            const plainText = document.getElementById('plain-text');
+            
+            // Reset text display
+            jargonText.style.display = 'block';
+            plainText.style.display = 'none';
+            
+            // Reset section state
+            section.classList.remove('fixed');
+            section.classList.add('broken');
+            button.textContent = 'Fix Understandable Issues';
+            button.classList.remove('fixed');
+            progressIcon.classList.remove('fixed');
+            progressIcon.classList.add('broken');
+            progressIcon.textContent = '❌';
+            
+            fixedSections.understandable = false;
+        }
+
+        function resetRobust() {
+            const section = document.getElementById('robust-section');
+            const button = document.getElementById('fix-robust');
+            const progressIcon = document.getElementById('progress-robust');
+            const fakeButton = document.getElementById('fake-button');
+            const realButton = document.getElementById('real-button');
+            const testResult = document.getElementById('test-result');
+            
+            // Reset button display
+            fakeButton.style.display = 'inline-block';
+            realButton.style.display = 'none';
+            testResult.textContent = '';
+            testResult.className = 'test-result';
+            
+            // Reset section state
+            section.classList.remove('fixed');
+            section.classList.add('broken');
+            button.textContent = 'Fix Robust Issues';
+            button.classList.remove('fixed');
+            progressIcon.classList.remove('fixed');
+            progressIcon.classList.add('broken');
+            progressIcon.textContent = '❌';
+            
+            fixedSections.robust = false;
+        }
+
+        // Check if all sections are fixed
+        function checkAllFixed() {
+            const allFixed = Object.values(fixedSections).every(fixed => fixed);
+            
+            if (allFixed) {
+                setTimeout(() => {
+                    alert('🎉 Congratulations! You\'ve successfully applied all four POUR principles. This page is now accessible to everyone!');
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
