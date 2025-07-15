@@ -65,8 +65,12 @@
         }
         
         .nav-link:focus {
-            outline: 3px solid #ffd700;
-            outline-offset: 2px;
+            outline: 4px solid #ff0000;
+            outline-offset: 0px;
+            box-shadow: 0 0 0 6px rgba(255, 0, 0, 0.1), 0 0 15px rgba(255, 0, 0, 0.15);
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ff0000 !important;
         }
         
         .menu-toggle {
@@ -193,8 +197,12 @@
         }
         
         .fix-button:focus {
-            outline: 3px solid #ffd700;
-            outline-offset: 2px;
+            outline: 4px solid #ff0000;
+            outline-offset: 0px;
+            box-shadow: 0 0 0 6px rgba(255, 0, 0, 0.1), 0 0 15px rgba(255, 0, 0, 0.15);
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ff0000 !important;
         }
         
         .fix-button.fixed {
@@ -291,8 +299,12 @@
         }
         
         .modal-button:focus {
-            outline: 3px solid #ffd700;
-            outline-offset: 2px;
+            outline: 4px solid #ff0000;
+            outline-offset: 0px;
+            box-shadow: 0 0 0 6px rgba(255, 0, 0, 0.1), 0 0 15px rgba(255, 0, 0, 0.15);
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ff0000 !important;
         }
         
         /* Understandable Section */
@@ -370,8 +382,12 @@
         }
         
         .real-button:focus {
-            outline: 3px solid #ffd700;
-            outline-offset: 2px;
+            outline: 4px solid #ff0000;
+            outline-offset: 0px;
+            box-shadow: 0 0 0 6px rgba(255, 0, 0, 0.1), 0 0 15px rgba(255, 0, 0, 0.15);
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ff0000 !important;
         }
         
         .screen-reader-test {
@@ -428,23 +444,30 @@
         }
         
         .progress-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.8rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0px;
+            line-height: 1;
         }
         
         .progress-icon.broken {
-            background: #dc3545;
-            color: white;
+            background: #fff5f5 !important;
+            color: #dc3545 !important;
+            border: 2px solid #dc3545 !important;
         }
         
         .progress-icon.fixed {
-            background: #28a745;
-            color: white;
+            background: #047857 !important;
+            color: #ffffff !important;
+            border: 2px solid #065f46 !important;
         }
         
         .reset-btn {
@@ -463,8 +486,12 @@
         }
         
         .reset-btn:focus {
-            outline: 2px solid #ffd700;
-            outline-offset: 1px;
+            outline: 3px solid #ff0000;
+            outline-offset: 0px;
+            box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.1), 0 0 10px rgba(255, 0, 0, 0.15);
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ff0000 !important;
         }
         
         /* Platform Navigation */
@@ -507,8 +534,12 @@
         }
         
         .nav-btn:focus {
-            outline: 3px solid #ffd700;
-            outline-offset: 2px;
+            outline: 4px solid #ff0000;
+            outline-offset: 0px;
+            box-shadow: 0 0 0 6px rgba(255, 0, 0, 0.1), 0 0 15px rgba(255, 0, 0, 0.15);
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ff0000 !important;
         }
         
         .home-btn {
@@ -603,28 +634,28 @@
     <div class="progress-tracker">
         <div class="progress-item">
             <div class="progress-left">
-                <div class="progress-icon broken" id="progress-perceivable">❌</div>
+                <div class="progress-icon broken" id="progress-perceivable">P</div>
                 <span>Perceivable</span>
             </div>
             <button class="reset-btn" id="reset-perceivable">Reset</button>
         </div>
         <div class="progress-item">
             <div class="progress-left">
-                <div class="progress-icon broken" id="progress-operable">❌</div>
+                <div class="progress-icon broken" id="progress-operable">O</div>
                 <span>Operable</span>
             </div>
             <button class="reset-btn" id="reset-operable">Reset</button>
         </div>
         <div class="progress-item">
             <div class="progress-left">
-                <div class="progress-icon broken" id="progress-understandable">❌</div>
+                <div class="progress-icon broken" id="progress-understandable">U</div>
                 <span>Understandable</span>
             </div>
             <button class="reset-btn" id="reset-understandable">Reset</button>
         </div>
         <div class="progress-item">
             <div class="progress-left">
-                <div class="progress-icon broken" id="progress-robust">❌</div>
+                <div class="progress-icon broken" id="progress-robust">R</div>
                 <span>Robust</span>
             </div>
             <button class="reset-btn" id="reset-robust">Reset</button>
@@ -663,7 +694,7 @@
                     <img src="puppy-image.png" alt="" class="demo-image" id="demo-image">
                     
                     <div class="alt-text-display" id="alt-text-display">
-                        <strong>Alt text now reads:</strong> "A cute golden retriever puppy sitting in green grass, looking directly at the camera with a happy expression"
+                        <strong>Alt text now reads:</strong> "Beagle puppy running through grass with an orange ball in its mouth. Its ears are flapping and tail is up."
                     </div>
                 </div>
             </section>
@@ -800,6 +831,97 @@
         const openModalBtn = document.getElementById('open-modal');
         const closeModalBtn = document.getElementById('close-modal');
 
+        // Modal functionality
+        let modalKeyboardTrap = null;
+        
+        openModalBtn.addEventListener('click', function() {
+            modal.style.display = 'block';
+            closeModalBtn.focus();
+            
+            // If not fixed yet, create keyboard trap
+            if (!fixedSections.operable) {
+                setupKeyboardTrap();
+            }
+        });
+
+        closeModalBtn.addEventListener('click', function() {
+            // Always allow mouse clicks to close modal
+            modal.style.display = 'none';
+            openModalBtn.focus();
+            removeKeyboardTrap();
+        });
+        
+        // Block keyboard activation of close button in broken state
+        closeModalBtn.addEventListener('keydown', function(e) {
+            if (!fixedSections.operable && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                e.stopPropagation();
+                // Force focus back to modal content
+                document.querySelector('#demo-modal .modal-button').focus();
+            }
+        });
+
+        // Always allow click outside to close (mouse interaction)
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                openModalBtn.focus();
+                removeKeyboardTrap();
+            }
+        });
+
+        function setupKeyboardTrap() {
+            const modalContent = document.querySelector('#demo-modal .modal-content');
+            const focusableElements = modalContent.querySelectorAll('button');
+            const firstElement = focusableElements[1]; // Skip the X button
+            const lastElement = focusableElements[focusableElements.length - 1];
+            
+            // Make X button unfocusable but still clickable
+            closeModalBtn.setAttribute('tabindex', '-1');
+            closeModalBtn.style.opacity = '0.7';
+            closeModalBtn.style.cursor = 'pointer';
+            closeModalBtn.title = 'Click to close (keyboard users are trapped until modal is fixed)';
+            
+            modalKeyboardTrap = function(e) {
+                // Completely block Escape key
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                
+                // Block Tab outside modal
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                }
+            };
+            
+            document.addEventListener('keydown', modalKeyboardTrap, true);
+            firstElement.focus();
+        }
+
+        function removeKeyboardTrap() {
+            if (modalKeyboardTrap) {
+                document.removeEventListener('keydown', modalKeyboardTrap, true);
+                modalKeyboardTrap = null;
+            }
+            
+            // Restore X button functionality
+            closeModalBtn.setAttribute('tabindex', '0');
+            closeModalBtn.style.opacity = '1';
+            closeModalBtn.style.cursor = 'pointer';
+        }
+
         // 1. PERCEIVABLE fixes
         document.getElementById('fix-perceivable').addEventListener('click', function() {
             if (fixedSections.perceivable) return;
@@ -812,7 +934,7 @@
             const image = document.getElementById('demo-image');
             const altTextDisplay = document.getElementById('alt-text-display');
             
-            image.setAttribute('alt', 'A cute golden retriever puppy sitting in green grass, looking directly at the camera with a happy expression');
+            image.setAttribute('alt', 'Beagle puppy running through grass with an orange ball in its mouth. Its ears are flapping and tail is up.');
             image.classList.add('fixed');
             altTextDisplay.classList.add('visible');
             
@@ -823,7 +945,6 @@
             button.classList.add('fixed');
             progressIcon.classList.remove('broken');
             progressIcon.classList.add('fixed');
-            progressIcon.textContent = '✅';
             
             fixedSections.perceivable = true;
             checkAllFixed();
@@ -837,13 +958,18 @@
             const button = this;
             const progressIcon = document.getElementById('progress-operable');
             
-            // Fix modal functionality - add escape key listener
-            document.addEventListener('keydown', function(e) {
+            // Remove keyboard trap and restore full functionality
+            removeKeyboardTrap();
+            
+            // Now the modal works properly - Escape key, X button, click outside all work
+            const fixedEscapeHandler = function(e) {
                 if (e.key === 'Escape' && modal.style.display === 'block') {
                     modal.style.display = 'none';
                     openModalBtn.focus();
                 }
-            });
+            };
+            
+            document.addEventListener('keydown', fixedEscapeHandler);
             
             // Update section state
             section.classList.remove('broken');
@@ -852,7 +978,6 @@
             button.classList.add('fixed');
             progressIcon.classList.remove('broken');
             progressIcon.classList.add('fixed');
-            progressIcon.textContent = '✅';
             
             fixedSections.operable = true;
             checkAllFixed();
@@ -880,7 +1005,6 @@
             button.classList.add('fixed');
             progressIcon.classList.remove('broken');
             progressIcon.classList.add('fixed');
-            progressIcon.textContent = '✅';
             
             fixedSections.understandable = true;
             checkAllFixed();
@@ -913,7 +1037,6 @@
             button.classList.add('fixed');
             progressIcon.classList.remove('broken');
             progressIcon.classList.add('fixed');
-            progressIcon.textContent = '✅';
             
             fixedSections.robust = true;
             checkAllFixed();
@@ -929,25 +1052,6 @@
             } else {
                 testResult.className = 'test-result fail';
                 testResult.textContent = '❌ Screen reader cannot identify the fake button. It\'s just a div with styling - no semantic meaning!';
-            }
-        });
-
-        // Modal functionality
-        openModalBtn.addEventListener('click', function() {
-            modal.style.display = 'block';
-            closeModalBtn.focus();
-        });
-
-        closeModalBtn.addEventListener('click', function() {
-            modal.style.display = 'none';
-            openModalBtn.focus();
-        });
-
-        // Click outside modal to close
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                openModalBtn.focus();
             }
         });
 
@@ -994,7 +1098,6 @@
             button.classList.remove('fixed');
             progressIcon.classList.remove('fixed');
             progressIcon.classList.add('broken');
-            progressIcon.textContent = '❌';
             
             fixedSections.perceivable = false;
         }
@@ -1004,6 +1107,12 @@
             const button = document.getElementById('fix-operable');
             const progressIcon = document.getElementById('progress-operable');
             
+            // Close modal if open
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+                removeKeyboardTrap();
+            }
+            
             // Reset section state
             section.classList.remove('fixed');
             section.classList.add('broken');
@@ -1011,7 +1120,6 @@
             button.classList.remove('fixed');
             progressIcon.classList.remove('fixed');
             progressIcon.classList.add('broken');
-            progressIcon.textContent = '❌';
             
             fixedSections.operable = false;
         }
@@ -1034,7 +1142,6 @@
             button.classList.remove('fixed');
             progressIcon.classList.remove('fixed');
             progressIcon.classList.add('broken');
-            progressIcon.textContent = '❌';
             
             fixedSections.understandable = false;
         }
@@ -1060,7 +1167,6 @@
             button.classList.remove('fixed');
             progressIcon.classList.remove('fixed');
             progressIcon.classList.add('broken');
-            progressIcon.textContent = '❌';
             
             fixedSections.robust = false;
         }
